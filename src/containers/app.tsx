@@ -25,7 +25,7 @@ const Empty = styled.p`
 `;
 
 export const App = () => {
-  const { editing, setContent, content, vimOn } = useEditing();
+  const { editing, setContent, content, vimOn, autoEdit } = useEditing();
   const [cursor, setCursor] = useStorage<{ row: number; column: number }>(
     CURSOR_KEY,
     { row: 0, column: 0 },
@@ -34,7 +34,7 @@ export const App = () => {
   const { theme } = useTheme();
 
   useEffect(() => {
-    if (editorRef.current && editing) {
+    if ((editorRef.current && editing) || (editorRef.current && autoEdit)) {
       editorRef.current.editor.focus();
       editorRef.current.editor.moveCursorTo(cursor.row, cursor.column);
     }

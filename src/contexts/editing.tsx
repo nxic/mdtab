@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { retrieveContent, saveContent, VIM_KEY } from '../core';
+import { retrieveContent, saveContent, VIM_KEY, AUTO_EDIT_KEY } from '../core';
 import { useStorage } from '../hooks';
 
 export const EditingContext = createContext<{
@@ -15,6 +15,8 @@ export const EditingContext = createContext<{
   setContent: (val: string) => void;
   vimOn: boolean;
   setVimOn: (val: boolean) => void;
+  autoEdit: boolean;
+  setAutoEdit: (val: boolean) => void;
 }>({} as any);
 
 export const EditingProvider = ({
@@ -27,6 +29,7 @@ export const EditingProvider = ({
   const [content, setContent] = useState('');
   const [loaded, setLoaded] = useState(false);
   const [vimOn, setVimOn] = useStorage(VIM_KEY, false);
+  const [autoEdit, setAutoEdit] = useStorage(AUTO_EDIT_KEY, false);
 
   useEffect(() => {
     const callback = (e: KeyboardEvent) => {
@@ -66,9 +69,13 @@ export const EditingProvider = ({
     load();
   }, []);
 
+  useEffect(() => {
+    console.log('autoEdit: ', autoEdit);
+  }, [autoEdit]);
+
   return (
     <EditingContext.Provider
-      value={{ editing, setEditing, content, setContent, vimOn, setVimOn }}
+      value={{ editing, setEditing, content, setContent, vimOn, setVimOn, autoEdit, setAutoEdit }}
       {...others}
     >
       {loaded && children}

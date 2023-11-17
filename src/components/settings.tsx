@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { SiVim } from 'react-icons/si';
 import { FiSettings, FiTrash2, FiSave, FiSun, FiMoon } from 'react-icons/fi';
+import { MdOutlineAutoFixNormal, MdOutlineAutoFixOff } from "react-icons/md";
 import { FaPen } from 'react-icons/fa';
 import { useTheme } from '../contexts';
 import { useStorage } from '../hooks';
@@ -72,7 +73,7 @@ const Spacer = styled.div`
 
 export const Settings = () => {
   const [open, setOpen] = useStorage(OPEN_KEY, true);
-  const { editing, setEditing, setVimOn, vimOn, setContent } = useEditing();
+  const { editing, setEditing, setVimOn, vimOn, setContent, autoEdit, setAutoEdit } = useEditing();
   const { toggle, theme } = useTheme();
   const vimRef = useRef<any>(null);
 
@@ -93,6 +94,12 @@ export const Settings = () => {
           <>
             <Toggle onClick={() => setContent('')} data-tooltip="Clear content">
               <FiTrash2 />
+            </Toggle>
+            <Toggle
+                onClick={() => setAutoEdit(!autoEdit)}
+                data-tooltip={`Auto edit is ${autoEdit ? 'ON' : 'OFF'}`}
+            >
+              { autoEdit ? <MdOutlineAutoFixNormal /> : <MdOutlineAutoFixOff /> }
             </Toggle>
             <Toggle
               onClick={() => setVimOn(!vimOn)}

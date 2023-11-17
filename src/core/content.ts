@@ -1,8 +1,8 @@
 import { STORAGE_KEY } from './keys';
 
-export const saveContent = (content: string) => {
+export const saveContent = async (content: string) => {
   if (chrome && chrome.storage) {
-    chrome.storage.sync.set({ [STORAGE_KEY]: content });
+    await chrome.storage.sync.set({ [STORAGE_KEY]: content });
     return;
   }
 
